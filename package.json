@@ -22,7 +22,9 @@
     "test:cover": "EMBER_ENV=test COVERAGE=true ember test",
     "test:config": "mocha node-tests/config-test.js",
     "test:blueprints": "mocha node-tests/blueprints",
-    "test:node-tests": "mocha 'node-tests/**/*-test.js'"
+    "test:node-tests": "mocha 'node-tests/**/*-test.js'",
+    "build-storybook": "ember build && build-storybook -s dist",
+    "storybook": "ember serve & start-storybook -p 9001 -s dist"
   },
   "husky": {
     "hooks": {
@@ -236,5 +238,10 @@
   "volta": {
     "node": "10.18.0",
     "yarn": "1.21.1"
+  },
+  "dependencies": {
+    "@storybook/ember": "^5.3.18",
+    "@storybook/ember-cli-storybook": "^0.2.1",
+    "babel-loader": "^8.1.0"
   }
 }

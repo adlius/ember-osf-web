@@ -1,5 +1,6 @@
 !.eslintrc.js
 !.template-lintrc.js
+!.storybook
 /coverage/**
 /dist/**
 /docs/**
