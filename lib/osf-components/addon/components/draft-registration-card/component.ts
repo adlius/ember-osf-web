@@ -41,41 +41,40 @@ export default class DraftRegistrationCard extends Component {
         if (!metadata) {
             return 0;
         }
-        schema.pages.forEach(page =>
-            page.questions.forEach(question => {
-                if (question.type === 'object' && question.properties) {
-                    question.properties.forEach(property => {
-                        if (!property.required) {
-                            return;
-                        }
+        schema.pages.forEach(page => page.questions.forEach(question => {
+            if (question.type === 'object' && question.properties) {
+                question.properties.forEach(property => {
+                    if (!property.required) {
+                        return;
+                    }
 
-                        requiredQuestions++;
+                    requiredQuestions++;
 
-                        if (!(question.qid in metadata)) {
-                            return;
-                        }
+                    if (!(question.qid in metadata)) {
+                        return;
+                    }
 
-                        const answers = metadata[question.qid];
-                        if ('value' in answers) {
-                            const value = answers.value as RegistrationMetadata;
-                            if (value && property.id in value) {
-                                const propertyValue = value[property.id].value;
-                                if (Array.isArray(propertyValue) ? propertyValue.length : propertyValue) {
-                                    answeredRequiredQuestions++;
-                                }
+                    const answers = metadata[question.qid];
+                    if ('value' in answers) {
+                        const value = answers.value as RegistrationMetadata;
+                        if (value && property.id in value) {
+                            const propertyValue = value[property.id].value;
+                            if (Array.isArray(propertyValue) ? propertyValue.length : propertyValue) {
+                                answeredRequiredQuestions++;
                             }
                         }
-                    });
-                } else if (question.required) {
-                    requiredQuestions++;
-                    if (question.qid in metadata && 'value' in metadata[question.qid]) {
-                        const { value } = metadata[question.qid];
-                        if (Array.isArray(value) ? value.length : value) {
-                            answeredRequiredQuestions++;
-                        }
+                    }
+                });
+            } else if (question.required) {
+                requiredQuestions++;
+                if (question.qid in metadata && 'value' in metadata[question.qid]) {
+                    const { value } = metadata[question.qid];
+                    if (Array.isArray(value) ? value.length : value) {
+                        answeredRequiredQuestions++;
                     }
                 }
-            }));
+            }
+        }));
         return requiredQuestions ? (answeredRequiredQuestions / requiredQuestions) * 100 : -1;
     }
 
